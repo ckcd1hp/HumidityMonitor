@@ -15,13 +15,19 @@ unsigned long wifiPrevMillis = 0;
 void setupWifi()
 {
     // delete old config
-    WiFi.disconnect(true);
+    // WiFi.disconnect(true);
+
+    // IPAddress ip(192, 168, 50, 10);
+    // IPAddress dns(192, 168, 50, 1);
+    // IPAddress gateway(192, 168, 50, 1);
+    // IPAddress subnet(255, 255, 255, 0);
     delay(1000);
     // add wifi events
     WiFi.onEvent(WiFiStationConnected, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_CONNECTED);
     WiFi.onEvent(WiFiGotIP, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_GOT_IP);
     // WiFi.onEvent(WiFiStationDisconnected, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
     WiFi.mode(WIFI_STA); // station mode: ESP32 connects to access point
+    // WiFi.config(ip, gateway, subnet, dns);
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     Serial.println("Connecting to WIFI");
     delay(10000);
@@ -40,7 +46,7 @@ void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info)
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
     // mdns responder for esp32.local
-    if (MDNS.begin("MDNS_NAME"))
+    if (MDNS.begin(MDNS_NAME))
     {
         Serial.println("MDNS responder started, accessible via nftv2.local");
     }
